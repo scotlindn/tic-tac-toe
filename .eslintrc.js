@@ -2,7 +2,6 @@ module.exports = {
   extends: [
     'next/core-web-vitals',
     'plugin:import/typescript',
-    'plugin:storybook/recommended'
   ],
   rules: {
     'import/no-duplicates': 'error',

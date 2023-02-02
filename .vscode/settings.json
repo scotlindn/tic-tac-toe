@@ -125,5 +125,8 @@
   ],
   "svg.preview.background": "custom",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "cSpell.words": []
+  "cSpell.words": [
+    "Baskervville",
+    "immer"
+  ]
 }

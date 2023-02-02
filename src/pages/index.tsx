@@ -1,5 +1,5 @@
-import { Button } from '@mui/material'
+import { TicTacToe } from 'src/components/pages/TicTacToe'
 
 export default function Home() {
-  return <Button sx={{ textTransform: 'capitalize' }}>Home</Button>
+  return <TicTacToe />
 }

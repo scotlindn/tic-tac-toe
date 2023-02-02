@@ -2,7 +2,15 @@ import {
   createTheme,
   ThemeProvider as MuiThemeProvider
 } from '@mui/material/styles'
-import { Roboto } from '@next/font/google'
+import { Roboto, Baskervville, Raleway } from '@next/font/google'
+
+export const baskerville = Baskervville({
+  weight: '400'
+})
+
+export const raleway = Raleway({
+  weight: ['400']
+})
 
 export const roboto = Roboto({
   weight: ['100', '300', '400', '500', '700', '900'],
