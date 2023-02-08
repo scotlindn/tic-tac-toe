@@ -17,10 +17,6 @@ interface WelcomeProps {
 export const Welcome = (props: WelcomeProps) => {
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
 
-  const selectPlayerHandler = (player: Player) => {
-    setSelectedPlayer(player)
-  }
-
   return (
     <Stack
       alignItems="center"
@@ -43,7 +39,7 @@ export const Welcome = (props: WelcomeProps) => {
           <Stack
             key={player}
             alignItems="center"
-            onClick={() => selectPlayerHandler(player)}
+            onClick={() => setSelectedPlayer(player)}
           >
             <Player>{player}</Player>
             <PlayerUnderline $isSelected={selectedPlayer === player} />
