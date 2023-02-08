@@ -41,7 +41,13 @@ export const Game = (props: GameProps) => {
   const [turn, setTurn] = useState<Player>(starter)
   const [board, setBoard] = useState<Board>(initialBoardState)
   const [lastWinner, setLastWinner] = useState<Player | null>(null)
+
   const winner = useMemo(() => getWinner(board), [board])
+
+  const isGameFinished = useCallback(
+    (board: Board) => !!winner?.player || board.flat().every((b) => !isNil(b)),
+    [winner]
+  )
 
   const computerMove = useDebounce(
     () => {
@@ -61,21 +67,18 @@ export const Game = (props: GameProps) => {
 
   useEffect(() => () => computerMove.cancel(), [computerMove])
 
-  const isGameFinished = useMemo(
-    () => !!winner?.player || board.flat().every((b) => !isNil(b)),
-    [board, winner]
-  )
-
   const onBoardClickHandler = useCallback(
     (row: number, col: number) => {
-      setBoard(
-        produce(board, (draft) => {
-          draft[row][col] = turn
-        })
-      )
-      setTurn('O')
+      const newBoardState = produce(board, (draft) => {
+        draft[row][col] = turn
+      })
 
-      if (!isGameFinished) computerMove()
+      setBoard(newBoardState)
+
+      if (!isGameFinished(newBoardState)) {
+        setTurn('O')
+        computerMove()
+      }
     },
     [board, computerMove, isGameFinished, turn]
   )
@@ -109,11 +112,11 @@ export const Game = (props: GameProps) => {
               return (
                 <CellButton
                   key={colIndex}
-                  disabled={isGameFinished || turn === 'O'}
+                  disabled={isGameFinished(board) || turn === 'O'}
                   $readOnly={isCellReadOnly}
                   $inWinnerPath={isCellInWinnerPath}
                   onClick={() =>
-                    !isGameFinished &&
+                    !isGameFinished(board) &&
                     !isCellReadOnly &&
                     onBoardClickHandler(rowIndex, colIndex)
                   }
@@ -125,7 +128,7 @@ export const Game = (props: GameProps) => {
           </Row>
         ))}
       </Box>
-      {isGameFinished && (
+      {isGameFinished(board) && (
         <StyledButton onClick={playAgainHandler}>PLAY AGAIN</StyledButton>
       )}
     </Stack>
